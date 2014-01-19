@@ -80,6 +80,11 @@ html, body {
 	height:100%;
 }
 
+#content_frame {
+	height:100%;
+	width:100%;
+}
+
 #arrow_left_container {
 	position:fixed;
 	left:0;

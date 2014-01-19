@@ -22,9 +22,11 @@
 			.mouseleave(function(event){
 				$("#arrow_left").animate({'left' : '-100px'});
 			});
+			$('#start_over').click(function() {
+   				document.location.href='http://localhost/';
+			});
 		});
 	</script>
-
 </head>
 
 
@@ -46,11 +48,16 @@
 
 	<div id='content_wrapper'>
 		<?
-			$results = CBAPI::getJobResults($_GET["job_query"], "atlanta", "", 0);
-			$job = CBAPI::getJobDetails($results[0]->did);
+			$results = CBAPI::getJobResults($_GET["job_query"], "atlanta", "", 0); //array of 1 job
+			$job = CBAPI::getJobDetails($results[0]->did); //job 
+			$apply_link = $job->applyURL; //applyURL from job
+			$details_link = $job->companyDetailsURL;
+
 		?>
-		<b>Job Results:</b> <? print_r($job) ?>
+		<iframe src="<?php echo $apply_link; ?>" id="content_frame"></iframe>
+
 	</div>
+
 
 </body>
 </html>

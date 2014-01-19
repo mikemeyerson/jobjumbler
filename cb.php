@@ -11,7 +11,7 @@
  */
 class CBAPI {
 	private static $APIKey = "WDHT6SK6H8JJXV493BWZ";  /* your private CareerBuilder API Developer Key */
-	public static $perPage = 1; /* the number of job results to pull back for a results search */
+	public static $perPage = 12; /* the number of job results to pull back for a results search */
 	public static $siteID = ''; /* optional string that can be used to track engagement */
 	
 	

@@ -25,6 +25,20 @@
 			$('#start_over').click(function() {
    				document.location.href='http://localhost/';
 			});
+            $('#apply').click(function() {
+                $("#content_frame").css("visibility", "visible");
+                $("#return").css("visibility", "visible");
+                $("#desc_frame").css("visibility", "hidden");
+            });
+                          
+            $('#return').click(function() {
+                $("#content_frame").css("visibility", "hidden");
+                $("#return").css("visibility", "hidden");
+                $("#desc_frame").css("visibility", "visible");
+            });
+            $('#logo').click(function() {
+                document.location.href='http://localhost/';
+            });
 		});
 	</script>
 </head>
@@ -52,11 +66,20 @@
 			$job = CBAPI::getJobDetails($results[0]->did); //job 
 			$apply_link = $job->applyURL; //applyURL from job
 			$details_link = $job->companyDetailsURL;
+            $description = $job->getJobDescription(); //description from job
 
 		?>
-		<iframe src="<?php echo $apply_link; ?>" id="content_frame"></iframe>
+		<iframe src="<?php echo $apply_link; ?>" id="content_frame" frameBorder="0"></iframe>
+
+        <div id='desc_frame'>
+            <? echo html_entity_decode($description, ENT_QUOTES); ?>
+        </div>
 
 	</div>
+
+    <div id='return'>
+        Return To Posting
+    </div>
 
 
 </body>

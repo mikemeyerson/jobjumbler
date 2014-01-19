@@ -26,20 +26,14 @@
 
 	<div id='content_wrapper'>
 		<?
-            $results = CBAPI::getJobResults($_GET["job_query"], $_GET["city_query"], "", 0); //array of 1 job
+            $results = CBAPI::getJobResults($_GET["job_query"], $_GET["city_query"], "", 1, 0); 
+			$job = CBAPI::getJobDetails($results[0]->did); //job
 
-			for ($i = 1; $i <= 10; $i++) {
-				$job = CBAPI::getJobDetails($results[$i]->did); //job
-				$results[$i]->applyURL = $job->applyURL;
-				$results[$i]->description = $job->description;
-			}
-
-			$i = 1;
 		?>
-		<iframe src="<?php echo $results[1]->applyURL; ?>" id="content_frame" frameBorder="0"></iframe>
+		<iframe src="<?php echo $job->applyURL; ?>" id="content_frame" frameBorder="0"></iframe>
 
         <div id='desc_frame'>
-            <? echo html_entity_decode($results[1]->description, ENT_QUOTES); ?>
+            <? echo html_entity_decode($job->description, ENT_QUOTES); ?>
         </div>
 
 	</div>
@@ -52,11 +46,22 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script>
 
+		var counter = 1;
+		var tmp_job = "<?php echo $_GET['job_query']; ?>";
+		var job =  tmp_job.replace(" ", "%20");
+		var tmp_city = "<?php echo $_GET['city_query']; ?>";
+		var city = tmp_city.replace(" ", "%20");
+
 		$(document).ready(function(){	
+
+			$.ajaxSetup ({
+   				 // Disable caching of AJAX responses
+   				 cache: false
+			});
 
 			$("#arrow_right_container")
 			.mouseenter(function(event){
-				$("#arrow_right").animate({'left' : '90px'});
+				$("#arrow_right").animate({'left' : '40px'});
 				})
 			.mouseleave(function(event){
 				$("#arrow_right").animate({'left' : '190px'});
@@ -90,9 +95,21 @@
 			});
 
 			$('#arrow_right').click(function() { //changed to link to home page
-				var link = "<?php echo $results[$i]->applyURL; ?>";
-   				$("#content_frame").attr("src", link);
-   				$('#content_frame')[0].contentWindow.location.reload(true);
+				$("#content_frame").css("visibility", "hidden");
+                $("#return").css("visibility", "hidden");
+                $("#desc_frame").css("visibility", "visible");
+                counter = counter + 1;
+				$("#content_frame").load("http://localhost/iframe.php?id=" +  counter + "&job=" + job + "&city=" + city);
+				$("#desc_frame").load("http://localhost/descframe.php?id=" + counter + "&job=" + job + "&city=" + city);
+			});
+
+			$('#arrow_left').click(function() { //changed to link to home page
+				$("#content_frame").css("visibility", "hidden");
+                $("#return").css("visibility", "hidden");
+                $("#desc_frame").css("visibility", "visible");
+                counter = counter - 1;
+				$("#content_frame").load("http://localhost/iframe.php?id=" +  counter + "&job=" + job + "&city=" + city);
+				$("#desc_frame").load("http://localhost/descframe.php?id=" + counter + "&job=" + job + "&city=" + city);
 			});
 
 		});

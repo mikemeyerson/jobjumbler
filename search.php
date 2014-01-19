@@ -62,7 +62,7 @@
 
 	<div id='content_wrapper'>
 		<?
-			$results = CBAPI::getJobResults($_GET["job_query"], "atlanta", "", 0); //array of 1 job
+			$results = CBAPI::getJobResults($_GET["job_query"], $_GET["city_query"], "", 0); //array of 1 job
 			$job = CBAPI::getJobDetails($results[0]->did); //job 
 			$apply_link = $job->applyURL; //applyURL from job
 			$details_link = $job->companyDetailsURL;
